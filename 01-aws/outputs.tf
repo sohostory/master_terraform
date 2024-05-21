@@ -11,4 +11,5 @@ output "vpc_id" {
 output "ami_id" {
   description = "ID of the AMI"
   value = aws_instance.my_vm.ami
+  sensitive = true
 }
