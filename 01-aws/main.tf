@@ -84,9 +84,23 @@ resource "aws_key_pair" "test_ssh_key" {
   public_key = file(var.ssh_public_key)
 }
 
+# Get latest Amazon Linux AMI
+data "aws_ami" "amazon_linux" {
+  owners = ["amazon"]
+  most_recent = true
+  filter {
+    name = "name"
+    values = ["al2023-ami-2023.4.2024*"]
+  }
+  filter {
+    name = "architecture"
+    values = ["x86_64"]
+  }
+}
+
 # Create a ec2 instance
 resource "aws_instance" "my_vm" {
-  ami = "ami-02bf8ce06a8ed6092"
+  ami = data.aws_ami.amazon_linux.id
   instance_type = "t2.micro"
   subnet_id = aws_subnet.web.id
   vpc_security_group_ids = [aws_default_security_group.default_sec_group.id]
