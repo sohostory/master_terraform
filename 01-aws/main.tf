@@ -77,3 +77,16 @@ resource "aws_default_security_group" "default_sec_group" {
     Name = "Default Security Group"
   }
 }
+
+# Create a ec2 instance
+resource "aws_instance" "my_vm" {
+  ami = "ami-02bf8ce06a8ed6092"
+  instance_type = "t2.micro"
+  subnet_id = aws_subnet.web.id
+  vpc_security_group_ids = [aws_default_security_group.default_sec_group.id]
+  associate_public_ip_address = true
+  key_name = "production_ssh_key"
+  tags = {
+    Name = "My EC2 Instance - Amazon Linux"
+  }
+}
