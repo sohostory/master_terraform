@@ -12,14 +12,6 @@ provider "aws" {
   region = "us-east-2"
 }
 
-variable "vpc_cidr_block" {
-
-}
-
-variable "web_subnet" {
-
-}
-
 # Create a VPC
 resource "aws_vpc" "main" {
   cidr_block = var.vpc_cidr_block
