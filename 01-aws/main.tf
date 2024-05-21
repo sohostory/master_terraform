@@ -78,6 +78,12 @@ resource "aws_default_security_group" "default_sec_group" {
   }
 }
 
+# Create a key pair
+resource "aws_key_pair" "test_ssh_key" {
+  key_name = "testing_ssh_key"
+  public_key = file(var.ssh_public_key)
+}
+
 # Create a ec2 instance
 resource "aws_instance" "my_vm" {
   ami = "ami-02bf8ce06a8ed6092"
@@ -85,7 +91,7 @@ resource "aws_instance" "my_vm" {
   subnet_id = aws_subnet.web.id
   vpc_security_group_ids = [aws_default_security_group.default_sec_group.id]
   associate_public_ip_address = true
-  key_name = "production_ssh_key"
+  key_name = aws_key_pair.test_ssh_key.key_name
   tags = {
     Name = "My EC2 Instance - Amazon Linux"
   }

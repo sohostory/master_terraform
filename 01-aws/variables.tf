@@ -15,3 +15,7 @@ variable "my_vpc_name" {
   description = "Name of the VPC"
   type = string
 }
+
+variable "ssh_public_key" {
+  default = "~/.ssh/test_rsa.pub"
+}
