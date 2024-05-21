@@ -17,7 +17,7 @@ resource "aws_vpc" "main" {
   cidr_block = var.vpc_cidr_block
 
   tags = {
-    Name = "Main VPC"
+    Name = "${var.my_vpc_name} VPC"
   }
 }
 
@@ -28,5 +28,25 @@ resource "aws_subnet" "web" {
   availability_zone = "us-east-2a"
   tags = {
     Name = "Web Subnet"
+  }
+}
+
+# Create an internet gateway
+resource "aws_internet_gateway" "my_web_igw" {
+  vpc_id = aws_vpc.main.id
+  tags = {
+    Name = "${var.my_vpc_name} IGW"
+  }
+}
+
+# Create a default route table
+resource "aws_default_route_table" "main_vpc_default_rt" {
+  default_route_table_id = aws_vpc.main.default_route_table_id
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.my_web_igw.id
+  }
+  tags = {
+    Name = "my-default-rt"
   }
 }

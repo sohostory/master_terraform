@@ -9,3 +9,9 @@ variable "web_subnet" {
   description = "Web Subnet"
   type = string
 }
+
+variable "my_vpc_name" {
+  default = "Main VPC"
+  description = "Name of the VPC"
+  type = string
+}
