@@ -12,9 +12,17 @@ provider "aws" {
   region = "us-east-2"
 }
 
+variable "vpc_cidr_block" {
+
+}
+
+variable "web_subnet" {
+
+}
+
 # Create a VPC
 resource "aws_vpc" "main" {
-  cidr_block = "10.0.0.0/16"
+  cidr_block = var.vpc_cidr_block
 
   tags = {
     Name = "Main VPC"
@@ -24,7 +32,7 @@ resource "aws_vpc" "main" {
 # Create a subnet
 resource "aws_subnet" "web" {
   vpc_id     = aws_vpc.main.id
-  cidr_block = "10.0.10.0/24"
+  cidr_block = var.web_subnet
   availability_zone = "us-east-2a"
   tags = {
     Name = "Web Subnet"
