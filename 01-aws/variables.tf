@@ -11,7 +11,7 @@ variable "web_subnet" {
 }
 
 variable "my_vpc_name" {
-  default = "Main VPC"
+  default = "Main"
   description = "Name of the VPC"
   type = string
 }
