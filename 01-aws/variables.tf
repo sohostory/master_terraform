@@ -1,19 +1,19 @@
 variable "vpc_cidr_block" {
-  default = "10.0.0.0/16"
+  default     = "10.0.0.0/16"
   description = "CIDR block for the VPC"
-  type = string
+  type        = string
 }
 
 variable "web_subnet" {
-  default = "10.0.10.0/24"
+  default     = "10.0.10.0/24"
   description = "Web Subnet"
-  type = string
+  type        = string
 }
 
 variable "my_vpc_name" {
-  default = "Main"
+  default     = "Main"
   description = "Name of the VPC"
-  type = string
+  type        = string
 }
 
 variable "ssh_public_key" {
