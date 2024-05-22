@@ -78,12 +78,21 @@ resource "aws_default_security_group" "default_sec_group" {
   }
 }
 
+data "aws_ami" "latest_ubuntu_server" {
+  owners = ["099720109477"]
+  most_recent = true
+  
+  filter {
+    name = "architecture"
+    values = ["x86_64"]
+  }
+}
 resource "aws_key_pair" "test_ssh_key" {
   key_name   = "test_ssh_key"
   public_key = file(var.test_ssh_key)
 }
 resource "aws_instance" "server" {
-  ami                         = "ami-0cbe318e714fc9a82"
+  ami                         = data.aws_ami.latest_ubuntu_server.id
   instance_type               = "t2.micro"
   subnet_id                   = aws_subnet.webapps.id
   vpc_security_group_ids = [aws_default_security_group.default_sec_group.id]
