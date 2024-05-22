@@ -77,12 +77,18 @@ resource "aws_default_security_group" "default_sec_group" {
     Name = "Default Security Group"
   }
 }
+
+resource "aws_key_pair" "test_ssh_key" {
+  key_name   = "test_ssh_key"
+  public_key = file(var.test_ssh_key)
+}
 resource "aws_instance" "server" {
   ami                         = "ami-0cbe318e714fc9a82"
   instance_type               = "t2.micro"
-  count                       = 2
   subnet_id                   = aws_subnet.webapps.id
+  vpc_security_group_ids = [aws_default_security_group.default_sec_group.id]
   associate_public_ip_address = true
+  key_name = aws_key_pair.test_ssh_key.key_name
   tags = {
     Name = "Server"
   }
