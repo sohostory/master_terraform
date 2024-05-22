@@ -98,6 +98,7 @@ resource "aws_instance" "server" {
   vpc_security_group_ids = [aws_default_security_group.default_sec_group.id]
   associate_public_ip_address = true
   key_name = aws_key_pair.test_ssh_key.key_name
+  user_data = file("./entry-script.sh")
   tags = {
     Name = "Server"
   }
