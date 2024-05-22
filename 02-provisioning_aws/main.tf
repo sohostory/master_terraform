@@ -26,3 +26,31 @@ resource "aws_subnet" "webapps" {
     Name = "Web Application Subnet"
   }
 }
+
+resource "aws_internet_gateway" "gw" {
+  vpc_id = aws_vpc.production.id
+  tags = {
+    Name = "Production Internet Gateway"
+  }
+}
+
+resource "aws_default_route_table" "rt" {
+  default_route_table_id = aws_vpc.production.default_route_table_id
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.gw.id
+  }
+  tags = {
+    Name = "Production Route Table"
+  }
+}
+resource "aws_instance" "server" {
+  ami = "ami-0cbe318e714fc9a82"
+  instance_type = "t2.micro"
+  count = 2
+  subnet_id = aws_subnet.webapps.id
+  associate_public_ip_address = true
+  tags = {
+    Name = "Server"
+  }
+}
